@@ -12,6 +12,24 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 from telnetlib import AUTHENTICATION
+import xlwt
+
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,8 +44,10 @@ SECRET_KEY = '^6+hbak*-=m+rji%xhp%l4j=j)&24^h@hk48c349pzp4d20m-k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
+
+# import sys 
+# sys.path.append('/project1/mysite/.venv/lib/python3.9/site-packages')
 
 # Application definition
 
@@ -38,10 +58,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+   
+  
+
+    
+ 
+
+
 
     'pages',
+    'mainpage',
+    'tables',
+
+
+    
 
 ]
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,10 +112,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
+    
   'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'test',

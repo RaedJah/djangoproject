@@ -1,0 +1,305 @@
+{% extends 'mainpage/base.html' %}
+
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+
+  {% block content %}
+
+
+
+
+
+
+
+
+
+  <!-- partial -->
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> <span style = "color: #2A3038">New Operator</span> </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item active" aria-current="page">New Operator</li>
+          </ol>
+        </nav>
+
+
+      </div>
+      <div class="row">
+
+
+        <div class="col-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+
+
+
+
+
+
+              <form action="" method="POST" class="form-sample">
+                {% csrf_token %}
+
+                <div class="row">
+                  <div class="col-md-6">
+
+
+
+                    <div class="form-group row">
+
+
+                
+                  
+                      <label class="col-sm-3 col-form-label">Country</label>
+
+
+                      <div class="col-sm-9">
+
+                        <select name="country" id="country" class="form-control">
+x
+                          {% for Object in Partner %}
+                          <option>{{ Object.Country }}</option>
+                          {% endfor %}
+
+
+
+                        </select>
+
+                        <br>
+                        <a style="color: 
+                                #6c7293 " href="{% url 'country_form' %}"><button type="button"
+                            class="btn btn-inverse-dark btn-fw">Add Country</button></a>
+                      </div>
+                    </div>
+
+                    
+                  </div>
+
+
+
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Operator Name</label>
+
+                      <div class="col-sm-9">
+                        {{form.name}}
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+                          
+       <div class="row">
+
+        <div class="col-md-6">
+
+
+
+          <div class="form-group row">
+
+
+      
+        
+            <label class="col-sm-3 col-form-label">Currency</label>
+
+
+            <div class="col-sm-9">
+
+              <select name="currency" id="currency" class="form-control">
+x
+                {% for currency in Currency %}
+                <option>{{ currency.LocalCurrency }}</option>
+                {% endfor %}
+
+
+
+              </select>
+
+              <br>
+              <a style="color: 
+                      #6c7293 " href="{% url 'currency_form' %}"><button type="button"
+                  class="btn btn-inverse-dark btn-fw">Add Currency</button></a>
+            </div>
+          </div>
+
+          
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label">Tadig</label>
+            <div class="col-sm-9">
+              {{form.tadig}}
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+
+
+
+
+
+ 
+
+
+                 
+       <div class="row">
+
+                  <div class="col-md-6">
+
+                    <div class="form-group row">
+
+                      <label class="col-sm-3 col-form-label">Standar IOT</label>
+
+                      <div class="col-sm-9">
+                        {{form.standard_iot}}
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+
+                
+
+
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Foreign Tax
+                               <br>(eg: 20 for 20%)</label>
+                    <div class="col-sm-9">
+                      {{form.foreign_tax}}
+                    </div>
+                  </div>
+        
+                </div> 
+
+
+
+                </div>
+
+         
+                
+
+               
+                   
+
+
+
+
+
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">DIOT</label>
+                      <div class="col-sm-9">
+                        {{form.diot}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Agreement Type</label>
+                      <div class="col-sm-9">
+                        {{form.agreement_type}}
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+
+
+
+
+                
+                
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">MCC MNC</label>
+                      <div class="col-sm-9">
+                        {{form.mcc_mnc}}
+                      </div>
+                    </div>
+                  </div>
+                  
+
+
+                </div>
+            
+                <div class="row">
+
+
+                    <button type="submit" class="btn btn-primary mr-2" >Submit</button>
+                    <button class="btn btn-dark" onclick="javascript:history.back();">Cancel</button>
+
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+      
+
+
+
+
+
+      </div>
+    </div>
+    
+
+  </div>
+  <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="{% static 'mainpage/assets/vendors/js/vendor.bundle.base.js'%}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="{% static 'mainpage/assets/vendors/select2/select2.min.js'%}"></script>
+  <script src="{% static 'mainpage/assets/vendors/typeahead.js/typeahead.bundle.min.js'%}"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="{% static 'mainpage/assets/js/off-canvas.js'%}"></script>
+  <script src="{% static 'mainpage/assets/js/hoverable-collapse.js'%}"></script>
+  <script src="{% static 'mainpage/assets/js/misc.js'%}"></script>
+  <script src="{% static 'mainpage/assets/js/settings.js'%}"></script>
+  <script src="{% static 'mainpage/assets/js/todolist.js'%}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page -->
+  <script src="{% static 'mainpage/assets/js/file-upload.js'%}"></script>
+  <script src="{% static 'mainpage/assets/js/typeahead.js'%}"></script>
+  <script src="{% static 'mainpage/assets/js/select2.js'%}"></script>
+  <!-- End custom js for this page -->
+
+
+
+  {% endblock %}
+</body>
+
+</html>

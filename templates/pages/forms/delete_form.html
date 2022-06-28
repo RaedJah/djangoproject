@@ -1,0 +1,97 @@
+
+{% extends 'mainpage/base.html' %}
+
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    
+
+{% block content %}
+
+
+
+        <div class="main-panel">
+
+
+          <div class="content-wrapper">
+
+            
+
+
+            <div class="row">
+              
+
+
+             
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card" >
+                  <div class="card-body" >
+
+
+                    <form action= "" method= "POST" class="forms-sample">
+                      {% csrf_token %}
+                      
+                      <h8 style="color:black
+                    ;">DELETE ALL DATA RELATED TO <b>{{ obj | capfirst }}</b> PERMANENTLY?</h8>
+                    <hr>
+
+                    <button style = " border-color:red;background-color: red;" type="submit" class="btn btn-primary mr-2">YES</button>
+                    <button  class="btn btn-dark"><a style = "color:white;" href="{% url 'home' %}">NO</a></button>
+
+                                
+                    </form>
+         
+                    
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+       
+ 
+  
+        </div>
+
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'mainpage/assets/vendors/js/vendor.bundle.base.js'%}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static 'mainpage/assets/vendors/select2/select2.min.js'%}"></script>
+    <script src="{% static 'mainpage/assets/vendors/typeahead.js/typeahead.bundle.min.js'%}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'mainpage/assets/js/off-canvas.js'%}"></script>
+    <script src="{% static 'mainpage/assets/js/hoverable-collapse.js'%}"></script>
+    <script src="{% static 'mainpage/assets/js/misc.js'%}"></script>
+    <script src="{% static 'mainpage/assets/js/settings.js'%}"></script>
+    <script src="{% static 'mainpage/assets/js/todolist.js'%}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static 'mainpage/assets/js/file-upload.js'%}"></script>
+    <script src="{% static 'mainpage/assets/js/typeahead.js'%}"></script>
+    <script src="{% static 'mainpage/assets/js/select2.js'%}"></script>
+    <!-- End custom js for this page -->
+
+
+
+   {% endblock %}
+  </body>
+</html> 
+
+
+
+
+
+
+
+
