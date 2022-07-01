@@ -19,7 +19,21 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title"><span style = "color: #000
-                        ">Roaming Charges</span></h4> 
+                        ">Roaming Charges ({{type}})</span></h4> 
+
+<div style= "
+position: relative;
+left: 33%;"  role="group" aria-label="Basic example">
+                                   <a href="{% url 'charge_table' type='VPMN' %}"><button type="button" class="btn btn-outline-dark btn-fw">VPMN</button></a>
+                                   
+                             <a href="{% url 'charge_table' type='HPMN' %}"><button type="button" class="btn btn-outline-dark btn-fw">HPMN</button></a>
+
+
+                    
+                      
+                          </div>
+
+
                          <a style="color: 
                          #6c7293; float: right; " href="{% url 'charge_form' %}"><button type="button"
                      class="btn btn-inverse-dark btn-fw">Add Charge</button></a>
@@ -29,13 +43,19 @@
                      <br>
                      <br>
                     <div class="table-responsive">
-                      <table class="table table-dark">
+                      <table style= "background-color: #FFC88E;" class="table table-dark">
                         <thead>
                           <tr>
                             <th> Operator</th>
+                            <th>Country</th>
                             <th> Service Type</th>
                             <th> Service </th>
-                            <th> Charge</th>
+                            <th>Charge</th>
+                          
+                            {% if type == "VPMN" %}
+                            
+                            <th> Final charge (GMD)</th>
+                            {% endif %}
 
                           </tr>
                         </thead>
@@ -46,9 +66,20 @@
         
                                 <tr>
                                     <td> {{ charge.Operator }} </td>
+
+                                    {% for operator in Operator %}
+
+                                      {% if charge.Operator == operator.name %}
+                                          <td>{{operator.country_id}}</td>
+                                      {% endif %}
+                                    {% endfor %}
+                                       
                                     <td> {{ charge.Service_type }} </td>
                                     <td> {{ charge.Service }} </td>
+                                    <td>{{charge.charge}}</td>
+                                    {% if type == "VPMN" %}
                                     <td> {{ charge.calculated }} </td>
+                                    {% endif %}
                 
                                 </tr>
                                 {% endfor %}

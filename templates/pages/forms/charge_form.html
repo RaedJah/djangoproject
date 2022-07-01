@@ -46,7 +46,7 @@
                           <div class="col-sm-9">
     
                             <select name="operator" id="operator" class="form-control">
-    x
+  
                               {% for operator in Operator %}
                               <option>{{ operator.name }}</option>
                               {% endfor %}
@@ -90,13 +90,13 @@
                       <div class="col-md-6">
 
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Service</label>
+                          <label class="col-sm-3 col-form-label">Call Type</label>
                           <div class="col-sm-9">
     
                             <select name="service_name" id="service_name" class="form-control">
     x
                               {% for service in Service %}
-                              <option>{{ service.Service_name }}</option>
+                              <option>{{ service.call_type }}</option>
                               {% endfor %}
     
     
@@ -106,7 +106,7 @@
                             <br>
                             <a style="color: 
                                     #6c7293 " href="{% url 'service_form' %}"><button type="button"
-                                class="btn btn-inverse-dark btn-fw">Add Service</button></a>
+                                class="btn btn-inverse-dark btn-fw">Add Call Type</button></a>
                           </div>
                         </div>
     

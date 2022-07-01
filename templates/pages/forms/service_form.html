@@ -16,11 +16,11 @@
 
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"><span style = "color: #2A3038">Add Service</span></h3>
+              <h3 class="page-title"><span style = "color: #2A3038">Add Call Type</span></h3>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item active">Forms</li>
-                  <li class="breadcrumb-item active" aria-current="page">Service</li>
+                  <li class="breadcrumb-item active" aria-current="page">Call Type</li>
                 </ol>
               </nav>
 
@@ -40,9 +40,9 @@
                       {% csrf_token %}
                       
                       <div class="form-group">
-                        <label for="exampleInputUsername1">Service name( eg: MTO, MTC)</label>
+                        <label for="exampleInputUsername1">Call Type ( eg: MTO, MTC)</label>
                         <br>
-                         {{form.Service_name}}
+                         {{form.call_type}}
                       </div>
 
                      

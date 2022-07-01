@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 def loginPage(request,*args,**kwargs):
     
@@ -33,11 +34,12 @@ def register_user(request):
     if request.method == "POST":
             username = request.POST.get('username')
             password1 = request.POST.get('password1')
-            print(password1)
+            
+       
 
             password2 = request.POST.get('password2')
-            print(password2)
-            if(username==''):
+           
+            if(username==None):
                 messages.info(request,("Passwords do not match"))
                 return redirect('register_user')
 
@@ -46,10 +48,17 @@ def register_user(request):
                  return redirect('register_user')
 
             else:
-                user = authenticate(username =username, password=password1)
-                login(request,user)
+                user = authenticate(username=username, password=password1)
+              
+                usr = User.objects.create_user(username= username)
+                usr = User.objects.get(username= username)
+                login(request,usr)
+            
+                usr.set_password(password1)
+                usr.save()
+             
                 messages.success(request,("Registration succesful"))
-                return redirect('login')
+                return redirect('home')
 
   
 

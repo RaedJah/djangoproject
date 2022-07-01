@@ -1,9 +1,11 @@
+from itertools import count
 from locale import currency
 import operator
 
 #paginator and math
 from django.core.paginator import Paginator
 from django.contrib import messages
+
 import math
 
 
@@ -13,7 +15,7 @@ from turtle import pos
 from django.shortcuts import redirect, render
 
 from .models import Partner, exchange_rate,Operator,Gambia_tax
-from tables.models import Charge, Service
+from tables.models import Charge, Service,Call_type
 
 from .forms import Countryform,Operatorform,Ratesform,Chargeform,Serviceform
 
@@ -33,15 +35,20 @@ def home(request):
 
 
 
-     
-     
+    country_list = []
     operator = Operator.objects.order_by('country_id') # ordering alphabetically with title
     country = Partner.objects.order_by('Country')
     valid = Charge.objects.order_by('Operator')
-    clist = list(Partner.objects.values_list('Country',flat=True))
-    clist = [c.upper() for c in clist]
+    clist = Partner.objects.all()
+
+    for c in clist:
+     country_list.append(c.Country.name)
+     country_list = [c.upper() for c in country_list]
+
     olist = list(Operator.objects.values_list('name',flat=True))
     olist = [o.upper() for o in olist]
+
+
 
     
     #setting up pagination
@@ -55,11 +62,14 @@ def home(request):
     
 
  #search bar
+ 
     
     if(request.POST.get('search')):
      search = request.POST.get('search').upper()
-     if search in clist:
-         country = Partner.objects.filter(Country=search)
+     if search in country_list:
+         
+         country = Partner.objects.filter(Country__icontains=search)
+         
       
          countries = country
          
@@ -68,19 +78,19 @@ def home(request):
 
           operators = Operator.objects.filter(name=search).values_list('country_id',flat=True)
           for o in operators:
-               country = Partner.objects.get(Country=o)
+               print(o)
+               country = Partner.objects.get(Country__icontains=o)
+               
                List.append(country)
                countries = List
 
 
+     else:
+          countries = Partner.objects.filter(Country__icontains=search)
 
-          
+
 
      
-  
-
-     else:
-          countries = None
 
 
     context = {
@@ -96,6 +106,9 @@ def home(request):
     
     return render(request,"mainpage/index.html",context)
 
+
+
+#operator and service function
 
 
 
@@ -114,12 +127,17 @@ def operator_form(request):
      if request.method == 'POST':
           form = Operatorform(request.POST)
           operator = request.POST.get('name')
+          
+          
        
 
           if form.is_valid():
                country = request.POST.get('country')
                currency = request.POST.get('currency')
                operator = request.POST.get('name')
+               iot = request.POST.get('IOT')
+               agreement = request.POST.get('Agreement')
+
                
 
                if operator in olist:
@@ -130,12 +148,22 @@ def operator_form(request):
           
             
                post = form.save(commit=False)
+               # if iot=="Discount":
+               #      return redirect()
                post.country_id = country 
                post.name = operator 
+               post.standard_iot = iot
+               post.agreement_type = agreement
                
                post.LocalCurrency = currency
+               Service.objects.create(Operator=post.name,Service_name='CAMEL',live=False)
+               Service.objects.create(Operator=post.name,Service_name='GPBRS',live=False)
+               Service.objects.create(Operator=post.name,Service_name='VOICE',live=False)
+               Service.objects.create(Operator=post.name,Service_name='LTE',live=False)
+
                post.save()
                form = post
+          
 
           
 
@@ -154,7 +182,7 @@ def operator_form(request):
     }
      return render(request,"pages/forms/operator_form.html",context)
 
-    
+
 
 def service_form(request):
 
@@ -166,7 +194,7 @@ def service_form(request):
           if form.is_valid():
                form.save()
 
-               return redirect('service_form')
+               return redirect('charge_form')
 
 
 
@@ -196,7 +224,7 @@ def normal_round(n):
 
 def charge_form(request):
      operators = Operator.objects.order_by('name')
-     services = Service.objects.order_by('Service_name')
+     call_type = Call_type.objects.order_by('call_type')
 
 
 
@@ -217,8 +245,11 @@ def charge_form(request):
 
           foreign_tax = float(Operator.objects.get(name= operator).foreign_tax)
           GM_tax = float(Gambia_tax.objects.get(pk=1).tax)
+          print(GM_tax)
           markup = float(Gambia_tax.objects.get(pk=1).markup)
+          print(markup)
           rate = float(exchange_rate.objects.get(LocalCurrency=currency).rate)
+          print(rate)
 
 
          
@@ -229,11 +260,26 @@ def charge_form(request):
                post.Operator = operator
                post.Service_type = service_type
                post.Service = service_name
+            
+               if(foreign_tax!= 0):
+                    charge_taxed = (charge * foreign_tax/100) + charge
+                    
+
+               else:
+                    charge_taxed = charge
+
+
                
-               charge_taxed = (charge * foreign_tax/100) + charge
+
+
+
                charged_GMD = charge_taxed * rate
+               print(charged_GMD)
+               print(charged_GMD)
                if(service_type=='Prepaid'):
                      charged_GMD_taxed = (charged_GMD * GM_tax/100) + charged_GMD
+
+                     
 
                else:
                     charged_GMD_taxed = charged_GMD
@@ -263,9 +309,12 @@ def charge_form(request):
 
      context = {
 
+
+
     'form' : form,
     'Operator': operators,
-    'Service' : services,
+    'Service': call_type,
+    
    
 
     }
@@ -284,7 +333,7 @@ def country_form(request):
         
           currency = request.POST.get('currency')
           Country = request.POST.get('Country')
-          Country = Country.capitalize()
+         
           
           if form.is_valid():
                post = form.save(commit=False)
@@ -362,20 +411,38 @@ def typography(request):
      return render(request,"pages/ui-features/typography.html",{})
 
 
-def blank(request, Operators):
-
-
+def blank(request, Operators,type):
      
+   
+
+
+     service = Service.objects.filter(Operator=Operators)
      prepaid = Charge.objects.filter(Operator = Operators).filter(Service_type = 'Prepaid')
      postpaid = Charge.objects.filter(Operator = Operators).filter(Service_type = 'Postpaid')
+     country = Operator.objects.get(name=Operators).country_id
+     operator = Operator.objects.get(name=Operators)
      
+
+   
+
+     if(request.POST.get('search')):
+          search = request.POST.get('search').upper()
+          prepaid = Charge.objects.filter(Operator = Operators).filter(Service__icontains=search).filter(Service_type = 'Prepaid')
+          postpaid = Charge.objects.filter(Operator = Operators).filter(Service__icontains=search).filter(Service_type = 'Postpaid')
+
+
+
      
 
      context = {
           'Postpaid' : postpaid,
           'Prepaid' : prepaid,
+          'operator':operator,
+          'type': type,
+          'Service':service,
     
           'name': Operators,
+          'country': country
      }
 
 

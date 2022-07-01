@@ -65,7 +65,7 @@
                         <select name="country" id="country" class="form-control">
 x
                           {% for Object in Partner %}
-                          <option>{{ Object.Country }}</option>
+                          <option>{{ Object.Country.name }}</option>
                           {% endfor %}
 
 
@@ -161,19 +161,36 @@ x
                  
        <div class="row">
 
-                  <div class="col-md-6">
+        <div class="col-md-6">
 
-                    <div class="form-group row">
 
-                      <label class="col-sm-3 col-form-label">Standar IOT</label>
 
-                      <div class="col-sm-9">
-                        {{form.standard_iot}}
-                      </div>
+          <div class="form-group row">
 
-                    </div>
 
-                  </div>
+      
+        
+            <label class="col-sm-3 col-form-label">IOT</label>
+
+
+            <div class="col-sm-9">
+
+              <select name="IOT" id="IOT" class="form-control">
+x
+          
+                <option>Standard</option>
+                <option>Discounted</option>
+
+
+
+              </select>
+              
+            </div>
+          </div>
+
+          
+        </div>
+
 
 
 
@@ -207,22 +224,35 @@ x
 
 
                 <div class="row">
+                  
                   <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-sm-3 col-form-label">DIOT</label>
-                      <div class="col-sm-9">
-                        {{form.diot}}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-sm-3 col-form-label">Agreement Type</label>
-                      <div class="col-sm-9">
-                        {{form.agreement_type}}
 
+
+
+                    <div class="form-group row">
+          
+          
+                
+                  
+                      <label class="col-sm-3 col-form-label">Agreement Type</label>
+          
+          
+                      <div class="col-sm-9">
+          
+                        <select name="Agreement" id="Agreement" class="form-control">
+          x
+                    
+                          <option>Bilateral</option>
+                          <option>Hub</option>
+          
+          
+          
+                        </select>
+                        
                       </div>
                     </div>
+          
+                    
                   </div>
                 </div>
                 

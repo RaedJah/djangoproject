@@ -60,7 +60,7 @@ urlpatterns = [
     path('country_table', country_table, name="country_table"),
     path('operator_table', operator_table, name="operator_table"),
     path('rate_table', rate_table, name="rate_table"),
-    path('charge_table', charge_table, name="charge_table"),
+    path('charge_table/<type>', charge_table, name="charge_table"),
 
 
     #EXCEL
@@ -86,7 +86,7 @@ urlpatterns = [
 
 
    
-    path('operator/<Operators>',blank,name='blank' ),
+    path('operator/<Operators>/<type>',blank,name='blank' ),
     
     
    

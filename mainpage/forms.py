@@ -1,7 +1,8 @@
 from django.forms import ModelForm
 
 from .models import operator_ndcs,exchange_rate,Operator,Partner
-from tables.models import Charge,Service
+from tables.models import Charge,Service,Call_type
+from django_countries.fields import CountryField
 
 
 
@@ -15,7 +16,7 @@ class Countryform(ModelForm):
 class Operatorform(ModelForm):
     class Meta:
         model = Operator
-        fields = ['name','country_id','standard_iot','diot',
+        fields = ['name','country_id','standard_iot',
         'mcc_mnc','agreement_type','tadig','foreign_tax','LocalCurrency']
         
 
@@ -40,8 +41,8 @@ class Chargeform(ModelForm):
 
 class Serviceform(ModelForm):
     class Meta:
-        model = Service
-        fields = ['Service_name']
+        model = Call_type
+        fields = ['call_type']
 
 
 

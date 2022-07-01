@@ -1,8 +1,10 @@
 
 
+from pickle import TRUE
 from xml.etree.ElementTree import QName
 from django.db import models
 from django.forms import FloatField
+from django_countries.fields import CountryField
 
 
 # This contains all models used in the project except for the login and logout page which can be found on 
@@ -10,8 +12,9 @@ from django.forms import FloatField
 
 
 class Partner(models.Model):
-    Country = models.CharField(max_length=50, unique=True, null=True)
+    Country = CountryField(blank=True)
     CountryCode = models.PositiveIntegerField()
+ 
     Zone = models.CharField(blank= True, max_length=100)
   
     created_at = models.DateTimeField(auto_now_add = True)
@@ -23,10 +26,9 @@ class Partner(models.Model):
 class Operator(models.Model):
     name = models.CharField(max_length=100)
     country_id = models.CharField(max_length=50, default='Gambia', blank = 'True')
-    standard_iot = models.CharField(max_length=1000)
-    diot =  models.CharField(max_length=1000)
+    standard_iot = models.CharField(max_length=1000, blank=True)
     mcc_mnc = models.FloatField()
-    agreement_type = models.CharField(max_length = 255)
+    agreement_type = models.CharField(max_length=50, blank=True)
     tadig = models.TextField()
     foreign_tax = models.DecimalField(max_digits=4,decimal_places=2, blank=True)
     LocalCurrency = models.CharField(max_length=3, blank= True, default = 'GMD' )

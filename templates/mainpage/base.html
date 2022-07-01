@@ -35,8 +35,8 @@
 
 
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" href="{%url 'home'%}"><img src="{% static 'mainpage/assets/images/logo.svg'%}" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini" href="{%url 'home'%}"><img src="{% static 'mainpage/assets/images/logo-mini.svg'%}" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" href="{%url 'home'%}#bottom"><img src="{% static 'mainpage/assets/images/logo.svg'%}" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini" href="{%url 'home'%}#bottom"><img src="{% static 'mainpage/assets/images/logo-mini.svg'%}" alt="logo" /></a>
         </div> 
 
 
@@ -105,7 +105,7 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-          <!-- <li class="nav-item menu-items">
+          <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
                 <i class="mdi mdi-laptop"></i>
@@ -120,7 +120,7 @@
                 <li class="nav-item"> <a class="nav-link" href="{%url 'typography'%}">Typography</a></li>
               </ul>
             </div>
-          </li> -->
+          </li>
        
           <!-- <li class="nav-item menu-items">
             <a class="nav-link" href="{%url 'tables'%}">
@@ -168,7 +168,7 @@
           </li> -->
 
           <li class="nav-item menu-items">
-            <a class="nav-link" href="{%url 'charge_table'%}">
+            <a class="nav-link" href="{%url 'charge_table' type='VPMN' %}">
               <span class="menu-icon">
                 <i class="mdi mdi-cash-multiple"></i>
               </span>
@@ -317,7 +317,7 @@
 
 
                     <div class="preview-item-content">
-                      <p class="preview-subject ellipsis mb-1">New Service</p>
+                      <p class="preview-subject ellipsis mb-1">New Call Type</p>
                     </div>
                   </a> 
 

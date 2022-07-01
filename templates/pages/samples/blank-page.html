@@ -24,18 +24,31 @@
                                         <a style="color: 
                          #6c7293; float: right; " href="{% url 'charge_form' %}"><button type="button"
                      class="btn btn-inverse-dark btn-fw">Add Charge</button></a>
+                     <b><p style ="text-align: left; color:#000">{{country}}</p></b>
                  
-                     <br>
-                     <br>
+            
+
+                     <div style= "
+                     position: relative;
+                     left: 33%;
+                    "  role="group" aria-label="Basic example">
+                       
+                <a  href="{% url 'blank' Operators=operator.name type='VPMN'%}"><button type="button" class="btn btn-outline-dark btn-fw">VPMN</button></a>
+                <hr style="width: 1px; height: 20px; display: inline-block;">
+                  <a href="{% url 'blank' Operators=operator.name type='HPMN'%}"><button type="button" class="btn btn-outline-dark btn-fw">HPMN</button></a>
+                  <br>
+<br>
+               </div>
+           
 
 
                                         <thead>
-                                            <tr class="table-warning">
+                                            <!-- <tr class="table-warning"> -->
                                                 <th colspan="2" style="text-align:center">
                                                     <span style="font-size:19px; font-weight: normal;">
                                                         {{ name }}</span>
                                                 </th>
-                                            </tr>
+                                            <!-- </tr> -->
 
 
 
@@ -50,14 +63,15 @@
                                     </table>
 
                                     <br> 
+                                    <div>
 
 
 
-                                    <table class="table table-bordered">
+                                    <table style="width: 49%;float: left; padding: 5px;" class="table table-bordered">
                                         <thead>
 
                                           <tr class="table-info">
-                                            <th colspan="2" style="text-align:center">
+                                            <th colspan="3" style="text-align:center">
                                                 <span style="font-size:17px; color: #fff; font-weight: normal;">
                                                     POSTPAID
                                                 </span>
@@ -73,7 +87,7 @@
                                                
                                                 <th style="text-align:center">
                                                     <span style="font-size:16px; color: #000;">
-                                                        Service
+                                                        Call Type
                                                     </span>
                                                 </th>
                                                 <th style="text-align:center">
@@ -81,6 +95,13 @@
                                                         Charge
                                                     </span>
                                                 </th>
+                                                {% if type == "VPMN" %}
+                                                <th style="text-align:center">
+                                                    <span style="font-size:16px;  color: #000;">
+                                                        Final Charge
+                                                    </span>
+                                                </th>
+                                                {% endif %}
                                                 
                                             </tr>
                                         </thead>
@@ -89,6 +110,9 @@
                                         <tbody>
                                             {% for postpaid in Postpaid %}
                                                 <tr>
+
+
+                                                    
                                                 
 
 
@@ -97,15 +121,21 @@
                                                         {{ postpaid.Service }}
                                                     </td>
                                                     <td>
+                                                        {{ postpaid.charge }}
+
+                                                    </td>
+                                                    {% if type == "VPMN" %}
+                                                    <td>
                                                         {{ postpaid.calculated }}</td>
+                                                        {% endif %}
 
 
-                                                        <td style="border:none;"class="btn btn-outline-secondary ">
+                                                        <!-- <td style="width:20%;border:none;"class="btn btn-outline-secondary ">
                                                             <a href="{% url 'delete_charge' Charges=postpaid %}">
                                                             <button style="border:none;" type="button" class="btn btn-outline-secondary ">
                                                                 <i class="mdi mdi-delete text-danger" style ></i>
-                                                              </button></td>
-                                                            </a>
+                                                              </button></a></td>
+                                                             -->
 
                                                    
                                                               
@@ -116,16 +146,16 @@
 
                                         </tbody>
                                     </table>
-                                    <br>
+                                 
 
 
 
-                                    <table class="table table-bordered">
+                                    <table style="width: 50%; padding: 5px; float: right;" class="table table-bordered">
                                       <thead>
                                         
                                         <tr class="table-info">
-                                          <th colspan="2" style="text-align:center">
-                                              <span style="font-size:17px; color: #fff; font-weight: normal;">
+                                          <th style="background-color: #fff; text-align:center;"colspan="3" >
+                                              <span style="font-size:17px; color: black; font-weight: normal;">
                                                   PREPAID
                                               </span>
                                           </th>
@@ -133,7 +163,7 @@
                                           <tr>
                                               <th style="text-align:center">
                                                   <span  style="font-size:16px; color: #000;">
-                                                      Service
+                                                      Call Type
                                                   </span>
                                               </th>
                                               <th style="text-align:center">
@@ -141,6 +171,14 @@
                                                       Charge
                                                   </span>
                                               </th>
+                                              {% if type == "VPMN" %}
+                                              <th style="text-align:center">
+                                                <span style="font-size:16px;  color: #000;">
+                                                   Final Charge
+                                                </span>
+                                                
+                                            </th>
+                                            {% endif %}
                                              
                                           </tr>
                                       </thead>
@@ -154,15 +192,19 @@
                                                       {{ prepaid.Service }}
                                                   </td>
                                                   <td>
+                                                    {{ prepaid.charge }}</td>
+                                                    {% if type == "VPMN" %}
+                                                  <td>
                                                       {{ prepaid.calculated }}</td>
+                                                      {% endif %}
 
-
-                                                      <td style="border:none;"class="btn btn-outline-secondary ">
+<!-- 
+                                                      <td style="width:20%;border:none;"class="btn btn-outline-secondary ">
                                                         <a href="{% url 'delete_charge' Charges=prepaid %}">
                                                         <button   style="border:none;" type="button" class="btn btn-outline-secondary ">
                                                             <i class="mdi mdi-delete text-danger" style ></i>
-                                                          </button></td>
-                                                        </a>
+                                                          </button></a></td>
+                                                         -->
 
 
 
@@ -176,6 +218,72 @@
 
                                       </tbody>
                                   </table>
+                                 
+                                  <br>
+                                  <br>
+                                  <br>
+
+                                  </div>
+                                  <br>
+
+                                  <br>
+                                  <hr>
+
+
+                                  <table style =" width:40%;margin-left: auto;
+                                  margin-right: auto;"class="table table-bordered">
+
+                                    <thead>
+
+                                      <tr >
+                                        <th style=" text-align:center;"colspan="3" >
+                                            <span style="font-size:17px;  font-weight: normal;">
+                                                Service Status
+                                            </span>
+                                        </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align:center">
+                                                <span  style="font-size:16px; color: #000;">
+                                                    Service
+                                                </span>
+                                            </th>
+                                            <th style="text-align:center">
+                                                <span style="font-size:16px;  color: #000;">
+                                                    Status
+                                                </span>
+                                            </th>
+                                            
+                                           
+                                        </tr>
+                                    </thead>
+
+
+                                    <tbody>
+                                        {% for service in Service %}
+                                            <tr>
+
+                                                <td>
+                                                    {{ service.Service_name }}
+                                                </td>
+                                                <td>
+                                                  {{ service.live}}</td>
+                                               
+                                               
+
+
+
+
+                                               
+
+
+                                            </tr>
+                                        {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+
 
 
                                 </div>

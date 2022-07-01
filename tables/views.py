@@ -17,15 +17,15 @@ from django.shortcuts import redirect
 # Create your views here.
 
 def country_table(request):
+    
      obj = Partner.objects.order_by('Country')
 
-     clist = list(Partner.objects.values_list('Country',flat=True))
-     clist = [c.upper() for c in clist]
+     
 
      if(request.POST.get('search')):
           search = request.POST.get('search').upper()
-          if search in clist:
-               obj = Partner.objects.filter(Country=search)
+         
+          obj = Partner.objects.filter(Country__icontains=search)
 
 
 
@@ -40,6 +40,12 @@ def country_table(request):
      
 
 def operator_table(request):
+     country_list = []
+     clist = Partner.objects.all()
+    
+     for c in clist:
+          country_list.append(c.Country.name)
+          country_list = [c.upper() for c in country_list]
      obj = Operator.objects.order_by('name')
      olist = list(Operator.objects.values_list('name',flat=True))
      olist = [o.upper() for o in olist]
@@ -49,6 +55,17 @@ def operator_table(request):
           search = request.POST.get('search').upper()
           if search in olist:
                obj = Operator.objects.filter(name=search)
+
+
+          elif search in country_list:
+                obj = Operator.objects.filter(country_id=search)
+
+          else:
+                  obj = Operator.objects.filter(name__icontains=search)
+         
+               
+
+     
 
 
 
@@ -66,13 +83,11 @@ def rate_table(request):
      obj = exchange_rate.objects.order_by('LocalCurrency')
      curr = 'Currency'
 
-     rlist = list( exchange_rate.objects.values_list('LocalCurrency',flat=True))
-     rlist = [r.upper() for r in rlist]
 
      if(request.POST.get('search')):
           search = request.POST.get('search').upper()
-          if search in rlist:
-               obj = exchange_rate.objects.filter(LocalCurrency=search)
+
+          obj = exchange_rate.objects.filter(LocalCurrency__icontains=search)
 
      context = {
     'tagline': curr,
@@ -100,7 +115,7 @@ def delete_operator(request,Operators):
      if request.method=='POST':
 
           operator.delete()
-          charge = Charge.objects.filter(Operator=Operators)
+          charge = Charge.objects.filter(Operator=operator.name)
           for c in charge:
                c.delete()
           
@@ -188,16 +203,27 @@ def update_operator(request,Operators):
      obj = Partner.objects.order_by('Country')
      operator = Operator.objects.get(name=Operators)
      form = Operatorform(instance= operator)
+     Currency= exchange_rate.objects.order_by('LocalCurrency')
 
      if request.method=='POST':
 
           form = Operatorform(request.POST,instance= operator)
           if form.is_valid():
                country = request.POST.get('country')
+               currency = request.POST.get('currency')
+               operator = request.POST.get('name')
+               iot = request.POST.get('IOT')
+               agreement = request.POST.get('Agreement')
+               
                
        
                post = form.save(commit=False)
-               post.country_id = country
+               post.country_id = country 
+               post.name = operator 
+               post.standard_iot = iot
+               post.LocalCurrency = currency
+               post.agreement_type = agreement
+
                post.save()
                form = post
 
@@ -210,6 +236,7 @@ def update_operator(request,Operators):
      context = {
 
     'Partner' : obj,
+    'Currency' : Currency,
     'form' : form,
 
     }
@@ -218,8 +245,10 @@ def update_operator(request,Operators):
 
 
 
-def charge_table(request):
+def charge_table(request,type):
+    
      obj =  Charge.objects.order_by('Operator')
+     obj2 = Operator.objects.order_by('name')
 
 
      olist = list(Charge.objects.values_list('Operator',flat=True))
@@ -232,6 +261,8 @@ def charge_table(request):
 
 
      context = {
+    'Operator': obj2,
+    'type':type,
 
     'Charge' : obj ,
     }
