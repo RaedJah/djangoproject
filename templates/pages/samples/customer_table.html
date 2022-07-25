@@ -88,6 +88,8 @@
                                                     Status
                                                 </span>
                                             </th>
+                                            <th>Launch Date</th>
+                                            
                                          
                                             
                                            
@@ -116,11 +118,15 @@
                                                     <span style = "  padding: 5px;background-color:#00FF00;"class="dot"></span>  Live</td>
 
 
+                                                <td>{{service.live_on}}</td>
+
+
                                                 {% else %}
 
                                                  <td>
                                                     <span style = "  padding: 5px;background-color:#ff0000;"class="dot"></span>  Developing</td>
-
+                                                
+                                                <td>Still in Development</td>
                                                 {% endif %}
 
 

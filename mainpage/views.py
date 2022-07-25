@@ -3,6 +3,7 @@
 #paginator and math
 from locale import currency
 from logging.config import DEFAULT_LOGGING_CONFIG_PORT
+from tokenize import blank_re
 from django.core.paginator import Paginator
 from django.contrib import messages
 import math

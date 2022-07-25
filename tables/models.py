@@ -1,5 +1,7 @@
 from unittest import TextTestRunner
 from django.db import models
+from django import forms
+from datetime import datetime
 
 
 
@@ -15,7 +17,7 @@ class Service(models.Model):
     Operator = models.CharField(max_length=100,blank=True)
     Service_name = models.CharField(max_length=100);
     live = models.BooleanField();
-    live_on = models.DateTimeField(auto_now_add=True)
+    live_on = models.DateField(auto_now_add=False,blank=True,default=datetime.now)
 
 
 

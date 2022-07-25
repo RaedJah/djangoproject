@@ -48,7 +48,7 @@ class Serviceform(ModelForm):
 class MainServiceform(ModelForm):
     class Meta:
         model = Service
-        fields = ['live']
+        fields = ['live','live_on']
         
 class HPMNServiceform(ModelForm):
     class Meta:
