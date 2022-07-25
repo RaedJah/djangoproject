@@ -46,6 +46,7 @@ class Serviceform(ModelForm):
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 class MainServiceform(ModelForm):
     class Meta:
         model = Service
@@ -57,6 +58,8 @@ class HPMNServiceform(ModelForm):
         fields = ['call_type', 'charge','Service_type']
 
 
+=======
+>>>>>>> parent of ab03a8f (final)
 =======
 >>>>>>> parent of ab03a8f (final)
 

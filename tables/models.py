@@ -18,7 +18,10 @@ class Service(models.Model):
     Service_name = models.CharField(max_length=100);
     live = models.BooleanField();
 <<<<<<< HEAD
+<<<<<<< HEAD
     live_on = models.DateField(auto_now_add=False,blank=True,default=datetime.now)
+=======
+>>>>>>> parent of ab03a8f (final)
 =======
 >>>>>>> parent of ab03a8f (final)
 

@@ -4,9 +4,12 @@ import operator
 
 #paginator and math
 <<<<<<< HEAD
+<<<<<<< HEAD
 from locale import currency
 from logging.config import DEFAULT_LOGGING_CONFIG_PORT
 from tokenize import blank_re
+=======
+>>>>>>> parent of ab03a8f (final)
 =======
 >>>>>>> parent of ab03a8f (final)
 from django.core.paginator import Paginator
