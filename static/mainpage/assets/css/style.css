@@ -30804,9 +30804,16 @@ div.tagsinput span.tag a {
   flex-grow: 1;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 
 #id_Country,#id_Zone,#id_CountryCode,#id_LocalCurrency,#id_rate,#id_Service_name,#id_live_on,#id_Service_charge,#id_Operator,#id_Service_type,#id_Service,#id_charge,#id_call_type{
+=======
+=======
+>>>>>>> parent of ab03a8f (final)
+#id_Country,#id_Zone,#id_CountryCode,#id_LocalCurrency,#id_rate,#id_Service_name,#id_Service_charge,#id_Operator,#id_Service_type,#id_Service,#id_charge,#id_call_type{
+>>>>>>> parent of ab03a8f (final)
 
   
     border: 1px solid #2c2e33;

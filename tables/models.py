@@ -14,23 +14,22 @@ class Charge(models.Model):
     calculated = models.DecimalField(max_digits=6,decimal_places=2,blank= True)
 
 class Service(models.Model):
-    Operator = models.CharField(max_length=100,blank=True)
+    Operator = models.CharField(max_length=100)
     Service_name = models.CharField(max_length=100);
     live = models.BooleanField();
+<<<<<<< HEAD
+<<<<<<< HEAD
     live_on = models.DateField(auto_now_add=False,blank=True,default=datetime.now)
+=======
+>>>>>>> parent of ab03a8f (final)
+=======
+>>>>>>> parent of ab03a8f (final)
 
-
-
-class HPMNTable(models.Model):
-    call_type = models.CharField(max_length=100);
-    charge  = models.DecimalField(max_digits=6,decimal_places=2)
-    Service_type = models.CharField(max_length=8, blank=True)
 
 
 
 class Call_type(models.Model):
     call_type = models.CharField(max_length=100, unique=True);
-    
 
 
 

@@ -35,8 +35,8 @@
 
 
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a class="sidebar-brand brand-logo" {% if user.is_active and user.is_superuser %}  ref="{%url 'home'%}#bottom"{% endif %}><img src="{% static 'mainpage/assets/images/logo.svg'%}" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini"             {% if user.is_active and user.is_superuser %}  href="{%url 'home'%}#bottom"  {% endif %}><img src="{% static 'mainpage/assets/images/logo-mini.svg'%}" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" href="{%url 'home'%}#bottom"><img src="{% static 'mainpage/assets/images/logo.svg'%}" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini" href="{%url 'home'%}#bottom"><img src="{% static 'mainpage/assets/images/logo-mini.svg'%}" alt="logo" /></a>
         </div> 
 
 
@@ -97,9 +97,6 @@
           <li class="nav-item nav-category">
             <span class="nav-link">Navigation</span>
           </li>
-
-
-          {% if user.is_active and user.is_superuser %}
           <li class="nav-item menu-items">
             <a class="nav-link" href="{%url 'home'%}">
               <span class="menu-icon">
@@ -108,9 +105,15 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
+<<<<<<< HEAD
+<<<<<<< HEAD
 
 
 <!-- 
+=======
+>>>>>>> parent of ab03a8f (final)
+=======
+>>>>>>> parent of ab03a8f (final)
           <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
@@ -181,7 +184,7 @@
               <span class="menu-title">Charges</span>
             </a>
           </li>
-
+        
 
           <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
@@ -195,27 +198,16 @@
               <ul class="nav flex-column sub-menu">
      
                 
-            
+                <!-- <li class="nav-item"> <a class="nav-link" href="{% static 'mainpage/pages/samples/error-404.html'%}"> 404 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% static 'mainpage/pages/samples/error-500.html'%}"> 500 </a></li> -->
+               
+               
                 <li class="nav-item"> <a class="nav-link" href="{%url 'login'%}"> Login </a></li>
                 <li class="nav-item"> <a class="nav-link" href="{%url 'register_user'%}"> Create User </a></li>
               </ul>
             </div>
           </li>
-          {% endif %}
 
-
-
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="{%url 'customercare' %}">
-              <span class="menu-icon">
-                <i class="mdi mdi-contacts"></i>
-              </span>
-              <span class="menu-title">Customer Care</span>
-            </a>
-          </li> 
-
-
-         
          
         </ul>
       </nav>
@@ -235,11 +227,6 @@
               <span class="mdi mdi-menu"></span>
             </button>
             <ul class="navbar-nav w-100">
-              <li class="nav-item nav-settings d-none d-lg-block">
-                <a class="nav-link" href="#">
-                  <i class="mdi mdi-view-grid"></i>
-                </a>
-              </li>
 
 
               <li class="nav-item w-100">
@@ -252,8 +239,6 @@
 
                   
                 </form>
-
-              
 
 
 
@@ -268,19 +253,19 @@
 
 
 
+             <li class="nav-item nav-settings d-none d-lg-block">
+              <a class="nav-link" href="#">
+                <i class="mdi mdi-view-grid"></i>
+              </a>
+            </li>
             </ul>
 
            
             <ul class=
             
             "navbar-nav navbar-nav-right">
-
-            {% if user.is_active and user.is_superuser %}
-
-
-           
-            
               <li class="nav-item dropdown d-none d-lg-block">
+
 
 
                 <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Roaming Partner</a>
@@ -355,22 +340,17 @@
 
                 
               </li>
-           
+
              
+
 
 
                 <a href="{% url 'export_excel' %}"><button type="button" class="btn btn-danger btn-icon-text">
                   <i class="mdi mdi-upload btn-icon-prepend"></i> Export to Excel </button></a>
-
-
-
-        
    
               
 
 
-
-                  {% endif %}
 
 
 
