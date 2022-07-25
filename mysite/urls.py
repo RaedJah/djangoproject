@@ -17,9 +17,9 @@ from collections import UserList
 from django.contrib import admin
 from django.urls import path, re_path
 from pages.views import loginPage,logoutPage,register_user
-from mainpage.views import home,icons,tables,buttons,dropdowns,typography,blank
-from mainpage.views import operator_form,country_form,currency_form,charge_form,service_form
-from tables.views import country_table, delete_charge,operator_table,rate_table, export_excel,charge_table,delete_operator,update_operator,update_currency
+from mainpage.views import home,icons,tables,buttons,dropdowns,typography,blank,customercare
+from mainpage.views import operator_form,hpmn_form,country_form,currency_form,charge_form,service_form,mainservice_form,customercare_table
+from tables.views import country_table, delete_charge,operator_table,rate_table, export_excel,charge_table,delete_operator, update_mainservice,update_operator,update_currency
 from tables.views import delete_charge
 
 urlpatterns = [
@@ -28,6 +28,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('', home, name="home"),
+    path('customercare',customercare,name="customercare"),
 
 #FORMS
 
@@ -37,6 +38,9 @@ urlpatterns = [
   
     path('charge_form',charge_form, name="charge_form"),
     path('service_form',service_form, name="service_form"),
+    path('hpmn_form',hpmn_form, name= "hpmn_form"),
+
+    path('mainservice_form',mainservice_form, name="mainservice_form"),
 
 
  
@@ -71,10 +75,12 @@ urlpatterns = [
 
     #DELETE/UPDATE
 
-    path('delete_operator/<Operators>',delete_operator,name='delete_operator' ),
-    path('update_operator/<Operators>',update_operator,name='update_operator' ),
-    path('update_currency/<curr>',update_currency,name='update_currency' ),
-     path('delete_charge/<Charges>',delete_charge,name='delete_charge' ),
+    path('delete_operator/<Operators>',delete_operator,name='delete_operator'),
+    path('update_operator/<Operators>',update_operator,name='update_operator'),
+    path('update_currency/<curr>',update_currency,name='update_currency'),
+    path('delete_charge/<Charges>',delete_charge,name='delete_charge'),
+    path('update_mainservice/<Operators>/<service>',update_mainservice,name='update_mainservice' ),
+
 
 
 
@@ -86,7 +92,12 @@ urlpatterns = [
 
 
    
-    path('operator/<Operators>/<type>',blank,name='blank' ),
+    # path('operator/<Operators>/<type>',blank,name='blank'),
+    path('operator/<Operators>/<type>',customercare_table,name='ccare'),
+    path('operators/<Operators>/<type>',blank,name='blank'),
+
+    # path('')
+
     
     
    

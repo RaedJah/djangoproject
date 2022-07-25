@@ -1,10 +1,11 @@
 from django.contrib import admin
 from .models import Partner, exchange_rate,Gambia_tax,Operator,operator_ndcs
-from tables.models import Service
+from tables.models import Service,HPMNTable
 
 
 
 admin.site.register(Service)
+admin.site.register(HPMNTable)
 
 
 admin.site.register(Partner)

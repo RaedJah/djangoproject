@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 
 from .models import operator_ndcs,exchange_rate,Operator,Partner
-from tables.models import Charge,Service,Call_type
+from tables.models import Charge,Service,Call_type,HPMNTable
 from django_countries.fields import CountryField
 
 
@@ -43,6 +43,17 @@ class Serviceform(ModelForm):
     class Meta:
         model = Call_type
         fields = ['call_type']
+
+
+class MainServiceform(ModelForm):
+    class Meta:
+        model = Service
+        fields = ['live']
+        
+class HPMNServiceform(ModelForm):
+    class Meta:
+        model = HPMNTable
+        fields = ['call_type', 'charge','Service_type']
 
 
 

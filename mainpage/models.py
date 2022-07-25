@@ -5,6 +5,7 @@ from xml.etree.ElementTree import QName
 from django.db import models
 from django.forms import FloatField
 from django_countries.fields import CountryField
+from django.core.validators import RegexValidator
 
 
 # This contains all models used in the project except for the login and logout page which can be found on 
@@ -27,8 +28,9 @@ class Operator(models.Model):
     name = models.CharField(max_length=100)
     country_id = models.CharField(max_length=50, default='Gambia', blank = 'True')
     standard_iot = models.CharField(max_length=1000, blank=True)
-    mcc_mnc = models.FloatField()
+    mcc_mnc = models.CharField( max_length=6, validators=[RegexValidator(r'^\d{1,10}$')])
     agreement_type = models.CharField(max_length=50, blank=True)
+    direction = models.CharField(max_length=50, blank=True)
     tadig = models.TextField()
     foreign_tax = models.DecimalField(max_digits=4,decimal_places=2, blank=True)
     LocalCurrency = models.CharField(max_length=3, blank= True, default = 'GMD' )

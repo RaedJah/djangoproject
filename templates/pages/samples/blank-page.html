@@ -20,19 +20,28 @@
 
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
-
+                                        {% if type == "VPMN" %}
                                         <a style="color: 
                          #6c7293; float: right; " href="{% url 'charge_form' %}"><button type="button"
                      class="btn btn-inverse-dark btn-fw">Add Charge</button></a>
                      <b><p style ="text-align: left; color:#000">{{country}}</p></b>
+
+                     {% else %}
+
+                     <a style="color: 
+                     #6c7293; float: right; " href="{% url 'hpmn_form' %}"><button type="button"
+                 class="btn btn-inverse-dark btn-fw">Add HPMN</button></a>
+                 <b><p style ="text-align: left; color:#000">{{country}}</p></b>
+                     {% endif  %}
                  
             
 
                      <div style= "
                      position: relative;
-                     left: 33%;
+                     left: 27%;
                     "  role="group" aria-label="Basic example">
-                       
+                <a  href="{% url 'blank' Operators=operator.name type='servicestatus'%}"><button type="button" class="btn btn-outline-dark btn-fw">SERVICE STATUS</button></a>
+                <hr style="width: 1px; height: 20px; display: inline-block;">
                 <a  href="{% url 'blank' Operators=operator.name type='VPMN'%}"><button type="button" class="btn btn-outline-dark btn-fw">VPMN</button></a>
                 <hr style="width: 1px; height: 20px; display: inline-block;">
                   <a href="{% url 'blank' Operators=operator.name type='HPMN'%}"><button type="button" class="btn btn-outline-dark btn-fw">HPMN</button></a>
@@ -65,172 +74,9 @@
                                     <br> 
                                     <div>
 
+                                        {% if type == "servicestatus" %}
 
-
-                                    <table style="width: 49%;float: left; padding: 5px;" class="table table-bordered">
-                                        <thead>
-
-                                          <tr class="table-info">
-                                            <th colspan="3" style="text-align:center">
-                                                <span style="font-size:17px; color: #fff; font-weight: normal;">
-                                                    POSTPAID
-                                                </span>
-                                            </th>
-                                            </tr>
-
-
-
-
-
-
-                                            <tr>
-                                               
-                                                <th style="text-align:center">
-                                                    <span style="font-size:16px; color: #000;">
-                                                        Call Type
-                                                    </span>
-                                                </th>
-                                                <th style="text-align:center">
-                                                    <span style="font-size:16px;  color: #000;">
-                                                        Charge
-                                                    </span>
-                                                </th>
-                                                {% if type == "VPMN" %}
-                                                <th style="text-align:center">
-                                                    <span style="font-size:16px;  color: #000;">
-                                                        Final Charge
-                                                    </span>
-                                                </th>
-                                                {% endif %}
-                                                
-                                            </tr>
-                                        </thead>
-
-
-                                        <tbody>
-                                            {% for postpaid in Postpaid %}
-                                                <tr>
-
-
-                                                    
-                                                
-
-
-
-                                                    <td>
-                                                        {{ postpaid.Service }}
-                                                    </td>
-                                                    <td>
-                                                        {{ postpaid.charge }}
-
-                                                    </td>
-                                                    {% if type == "VPMN" %}
-                                                    <td>
-                                                        {{ postpaid.calculated }}</td>
-                                                        {% endif %}
-
-
-                                                        <!-- <td style="width:20%;border:none;"class="btn btn-outline-secondary ">
-                                                            <a href="{% url 'delete_charge' Charges=postpaid %}">
-                                                            <button style="border:none;" type="button" class="btn btn-outline-secondary ">
-                                                                <i class="mdi mdi-delete text-danger" style ></i>
-                                                              </button></a></td>
-                                                             -->
-
-                                                   
-                                                              
-
-                                                </tr>
-                                            {% endfor %}
-
-
-                                        </tbody>
-                                    </table>
-                                 
-
-
-
-                                    <table style="width: 50%; padding: 5px; float: right;" class="table table-bordered">
-                                      <thead>
-                                        
-                                        <tr class="table-info">
-                                          <th style="background-color: #fff; text-align:center;"colspan="3" >
-                                              <span style="font-size:17px; color: black; font-weight: normal;">
-                                                  PREPAID
-                                              </span>
-                                          </th>
-                                          </tr>
-                                          <tr>
-                                              <th style="text-align:center">
-                                                  <span  style="font-size:16px; color: #000;">
-                                                      Call Type
-                                                  </span>
-                                              </th>
-                                              <th style="text-align:center">
-                                                  <span style="font-size:16px;  color: #000;">
-                                                      Charge
-                                                  </span>
-                                              </th>
-                                              {% if type == "VPMN" %}
-                                              <th style="text-align:center">
-                                                <span style="font-size:16px;  color: #000;">
-                                                   Final Charge
-                                                </span>
-                                                
-                                            </th>
-                                            {% endif %}
-                                             
-                                          </tr>
-                                      </thead>
-
-
-                                      <tbody>
-                                          {% for prepaid in Prepaid %}
-                                              <tr>
-
-                                                  <td>
-                                                      {{ prepaid.Service }}
-                                                  </td>
-                                                  <td>
-                                                    {{ prepaid.charge }}</td>
-                                                    {% if type == "VPMN" %}
-                                                  <td>
-                                                      {{ prepaid.calculated }}</td>
-                                                      {% endif %}
-
-<!-- 
-                                                      <td style="width:20%;border:none;"class="btn btn-outline-secondary ">
-                                                        <a href="{% url 'delete_charge' Charges=prepaid %}">
-                                                        <button   style="border:none;" type="button" class="btn btn-outline-secondary ">
-                                                            <i class="mdi mdi-delete text-danger" style ></i>
-                                                          </button></a></td>
-                                                         -->
-
-
-
-
-                                                 
-
-
-                                              </tr>
-                                          {% endfor %}
-
-
-                                      </tbody>
-                                  </table>
-                                 
-                                  <br>
-                                  <br>
-                                  <br>
-
-                                  </div>
-                                  <br>
-
-                                  <br>
-                                  <hr>
-
-
-                                  <table style =" width:40%;margin-left: auto;
+                                        <table style =" width:80%;margin-left: auto;
                                   margin-right: auto;"class="table table-bordered">
 
                                     <thead>
@@ -253,11 +99,20 @@
                                                     Status
                                                 </span>
                                             </th>
+                                            <th>Update</th>
                                             
                                            
                                         </tr>
                                     </thead>
-
+                                    <style>
+                                        .dot {
+                                          height: 10px;
+                                          width: 10px;
+                                          background-color: #bbb;
+                                          border-radius: 50%;
+                                          display: inline-block;
+                                        }
+                                        </style>
 
                                     <tbody>
                                         {% for service in Service %}
@@ -266,9 +121,22 @@
                                                 <td>
                                                     {{ service.Service_name }}
                                                 </td>
+
+                                                {% if service.live == True %}
                                                 <td>
-                                                  {{ service.live}}</td>
-                                               
+                                                    <span style = "  padding: 5px;background-color:#00FF00;"class="dot"></span>  Live</td>
+
+
+                                                {% else %}
+
+                                                 <td>
+                                                    <span style = "  padding: 5px;background-color:#ff0000;"class="dot"></span>  Developing</td>
+
+                                                {% endif %}
+
+
+                                       
+                                                  <td><a href="{% url 'update_mainservice' Operators=name service=service.Service_name %}">  <button type="button" class="btn btn-outline-secondary btn-icon-text"> Update <i class="mdi mdi-file-check btn-icon-append"></i>
                                                
 
 
@@ -283,6 +151,245 @@
 
                                     </tbody>
                                 </table>
+                                {% endif %}
+
+                                
+
+                                
+
+                                {% if type != "servicestatus" %}
+
+
+
+                                    <table style="width: 49%;float: left; padding: 5px;" class="table table-bordered">
+                                        <thead>
+
+                                          <tr class="table-info">
+                                            <th colspan="4" style="text-align:center">
+                                                <span style="font-size:17px; color: #fff; font-weight: normal;">
+                                                    POSTPAID
+                                                </span>
+                                            </th>
+                                            </tr>
+
+
+
+
+
+
+                                            <tr>
+                                               
+                                                <th style="text-align:center">
+                                                    <span style="font-size:16px; color: #000;">
+                                                        Call Type
+                                                    </span>
+                                                </th>
+                                                <th style="text-align:center">
+                                                    <span style="font-size:16px;  color: #000;">
+                                                        Charge           {% if type == "VPMN" %}({{operator.LocalCurrency}})
+                                                        {% endif %}
+                                                    </span>
+                                                </th>
+                                                {% if type == "VPMN" %}
+                                                <th style="text-align:center">
+                                                    <span style="font-size:16px;  color: #000;">
+                                                        Final  (GMD)
+                                                    </span>
+                                                </th>
+                                                <th>Delete</th>
+                                                {% endif %}
+                                                
+                                                
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody>
+                                            {% if type == "VPMN" %}
+                                                {% for postpaid in Postpaid %}
+                                                    <tr>
+
+
+                                                        
+                                                    
+
+
+
+                                                        <td>
+                                                            {{ postpaid.Service }}
+                                                        </td>
+                                                        <td>
+                                                            {{ postpaid.charge }}
+
+                                                        </td>
+                                                  
+                                                        <td>
+                                                            {{ postpaid.calculated }}</td>
+                                                        
+
+
+                                                            <td style="border:1px; " class="btn btn-outline-secondary ">
+                                                                <a href="{% url 'delete_charge' Charges=postpaid %}">
+                                                                <button style="border:none;" type="button" class="btn btn-outline-secondary ">
+                                                                    <i class="mdi mdi-delete text-danger" style ></i>
+                                                                </button></a></td>
+
+                                                       
+
+                                                    
+                                                                
+
+                                                    </tr>
+                                                {% endfor %}
+
+                                            {% else %}
+                                             
+                                            <tr>
+                                                {% for hpmn in HPMN %}
+
+                                                {% if hpmn.Service_type == "Postpaid" and operator.standard_iot == "Standard" %} 
+
+
+
+                                                        <td>
+                                                            {{ hpmn.call_type }}
+                                                        </td>
+                                                        <td>
+                                                            {{ hpmn.charge }}
+
+                                                        </td>
+                                                    {% endif %}
+
+
+                                            </tr>
+
+                                                 {% endfor %}
+
+                                            
+
+
+
+
+                                            {% endif %}
+
+
+                                        </tbody>
+                                       
+                                    </table>
+                                 
+
+
+
+                                    <table style="width: 50%; padding: 5px; float: right;" class="table table-bordered">
+                                      <thead>
+                                        
+                                        <tr class="table-info">
+                                          <th style="background-color: #fff; text-align:center;"colspan="4" >
+                                              <span style="font-size:17px; color: black; font-weight: normal;">
+                                                  PREPAID
+                                              </span>
+                                          </th>
+                                          </tr>
+                                          <tr>
+                                              <th style="text-align:center">
+                                                  <span  style="font-size:16px; color: #000;">
+                                                      Call Type
+                                                  </span>
+                                              </th>
+                                              <th style="text-align:center">
+                                                  <span style="font-size:16px;  color: #000;">
+                                                      Charge {% if type == "VPMN" %}({{operator.LocalCurrency}})
+                                                      {% endif %}
+                                                  </span>
+                                              </th>
+                                            {% if type == "VPMN" %}
+                                              <th style="text-align:center">
+                                                <span style="font-size:16px;  color: #000;">
+                                                   Final (GMD)
+                                                </span>
+                                                
+                                            </th>
+
+                                            <th>Delete</th>
+                                            {% endif %}
+                                    
+                                             
+                                          </tr>
+                                      </thead>
+
+
+                                      <tbody>
+                                        {% if type == "VPMN" %}
+                                          {% for prepaid in Prepaid %}
+                                              <tr>
+
+                                                  <td>
+                                                      {{ prepaid.Service }}
+                                                  </td>
+                                                  <td>
+                                                    {{ prepaid.charge }}</td>
+                                                    {% if type == "VPMN" %}
+                                                  <td>
+                                                      {{ prepaid.calculated }}</td>
+                                                      
+
+                                                      <td style="border:1px" class="btn btn-outline-secondary ">
+                                                        <a href="{% url 'delete_charge' Charges=prepaid %}">
+                                                        <button style="border:1px;" type="button" class="btn btn-outline-secondary ">
+                                                            <i class="mdi mdi-delete text-danger" style ></i>
+                                                          </button></a></td>
+                                                    {% endif %}
+
+
+                                 
+
+                                              </tr>
+                                          {% endfor %}
+
+                                        {% else %}
+
+                                                   {% for hpmn in HPMN %}
+                                                        {% if hpmn.Service_type == "Prepaid" and operator.standard_iot == "Standard"  %} 
+
+
+
+                                                            <td>
+                                                                {{ hpmn.call_type }}
+                                                            </td>
+                                                            <td>
+                                                                {{ hpmn.charge }}
+
+                                                            </td>
+                                                        {% endif %}
+
+
+                                                    {% endfor %}
+
+
+
+
+
+
+                                        {% endif %}
+
+
+                                      </tbody>
+                                      {% endif %}
+
+
+                                  </table>
+
+                                
+                                 
+                                
+
+                                  </div>
+                             
+
+                                
+
+
+                                  
 
 
 
@@ -299,4 +406,8 @@
         </body>
     </html>
 </div>
-<!-- page-body-wrapper ends --></div><!-- container-scroller --><!-- plugins:js --><script src="{% static 'mainpage/assets/vendors/js/vendor.bundle.base.js' %}"></script><!-- endinject --><!-- Plugin js for this page --><!-- End plugin js for this page --><!-- inject:js --><script src="{% static 'mainpage/assets/js/off-canvas.js' %}"> </script><script src="{% static 'mainpage/assets/js/hoverable-collapse.js' %}"></script><script src="{% static 'mainpage/assets/js/misc.js' %}"></script><script src="{% static 'mainpage/assets/js/settings.js' %}"></script><script src="{% static 'mainpage/assets/js/todolist.js' %}"></script><!-- endinject --><!-- Custom js for this page --><!-- End custom js for this page -->{% endblock %}</body></html>
+<!-- page-body-wrapper ends --></div><!-- container-scroller --><!-- plugins:js --><script src="{% static 'mainpage/assets/vendors/js/vendor.bundle.base.js' %}"></script><!-- endinject --><!-- Plugin js for this page --><!-- End plugin js for this page --><!-- inject:js -->
+<script src="{% static 'mainpage/assets/js/off-canvas.js' %}"> </script><script src="{% static 'mainpage/assets/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'mainpage/assets/js/misc.js' %}"></script><script src="{% static 'mainpage/assets/js/settings.js' %}">
+    
+</script><script src="{% static 'mainpage/assets/js/todolist.js' %}"></script><!-- endinject --><!-- Custom js for this page --><!-- End custom js for this page -->{% endblock %}</body></html>

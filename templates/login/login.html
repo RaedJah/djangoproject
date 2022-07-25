@@ -31,11 +31,18 @@
 				<div class="login100-pic js-tilt" data-tilt>
 					<img src="{% static 'login/images/img-01.png' %}" alt="IMG">
 				</div>
+				{% csrf_token %}
 
 				<form class="login100-form validate-form"
 				method = "POST" action ="{% url 'login' %}">
 
+
 				{% csrf_token %}
+
+				{% csrf_token %}
+
+				
+
 	
 					<span class="login100-form-title">
 						Staff Login
