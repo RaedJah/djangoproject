@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 
 from .models import operator_ndcs,exchange_rate,Operator,Partner
-from tables.models import Charge,Service,Call_type,HPMNTable
+from tables.models import Charge,Service,Call_type
 from django_countries.fields import CountryField
 
 
@@ -45,6 +45,7 @@ class Serviceform(ModelForm):
         fields = ['call_type']
 
 
+<<<<<<< HEAD
 class MainServiceform(ModelForm):
     class Meta:
         model = Service
@@ -56,5 +57,7 @@ class HPMNServiceform(ModelForm):
         fields = ['call_type', 'charge','Service_type']
 
 
+=======
+>>>>>>> parent of ab03a8f (final)
 
 
