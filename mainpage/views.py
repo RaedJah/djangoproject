@@ -1,22 +1,33 @@
-
+from itertools import count
+from locale import currency
+import operator
 
 #paginator and math
+
 from locale import currency
 from logging.config import DEFAULT_LOGGING_CONFIG_PORT
 from tokenize import blank_re
+
 from django.core.paginator import Paginator
 from django.contrib import messages
+
 import math
-from django.shortcuts import redirect
+
+
+from pydoc import pager
+
+from turtle import pos
 from django.shortcuts import redirect, render
 
-from mainpage.decorators import allowed_user
 from .models import Partner, exchange_rate,Operator,Gambia_tax
-from tables.models import Charge, Service,Call_type,HPMNTable
-from django.contrib.auth.decorators import login_required
-from .forms import Countryform,Operatorform,Ratesform,Chargeform,Serviceform,HPMNServiceform,MainServiceform
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.cache import cache_page
+from tables.models import Charge, Service,Call_type
+
+from .forms import Countryform,Operatorform,Ratesform,Chargeform,Serviceform
+
+
+# Create your views here.
+
+
 
 # Create your views here.
 
@@ -24,11 +35,7 @@ from django.views.decorators.cache import cache_page
 # Create your views here.
 
 
-# Create your views here.
 
-
-@login_required(login_url='login')
-@allowed_user(allowed_roles=['admin'])
 def home(request):
 
 
@@ -109,87 +116,9 @@ def home(request):
 #operator and service function
 
 
-def customercare(request):
 
 
 
-    country_list = []
-    operator = Operator.objects.order_by('country_id') # ordering alphabetically with title
-    country = Partner.objects.order_by('Country')
-    valid = Charge.objects.order_by('Operator')
-    clist = Partner.objects.all()
-
-    for c in clist:
-     country_list.append(c.Country.name)
-     country_list = [c.upper() for c in country_list]
-
-    olist = list(Operator.objects.values_list('name',flat=True))
-    olist = [o.upper() for o in olist]
-
-
-
-    
-    #setting up pagination
-
-    p = Paginator(country,10)
-    page = request.GET.get('page')
-    countries = p.get_page(page)
-    
-
-    List = []
-    
-
- #search bar
- 
-    
-    if(request.POST.get('search')):
-     search = request.POST.get('search').upper()
-     if search in country_list:
-         
-         country = Partner.objects.filter(Country__icontains=search)
-         
-      
-         countries = country
-         
-
-     elif search in olist:
-
-          operators = Operator.objects.filter(name=search).values_list('country_id',flat=True)
-          for o in operators:
-               print(o)
-               country = Partner.objects.get(Country__icontains=o)
-               
-               List.append(country)
-               countries = List
-
-
-     else:
-          countries = Partner.objects.filter(Country__icontains=search)
-
-
-
-     
-
-
-    context = {
-
-    'Operator' : operator,
-    'Country' : countries,
-    'Valid' : valid,
-    'Pages' : countries,
-
-    
-
-    }
-    
-    
-    return render(request,"pages/tables/customercare_view.html",context)
-
-
-
-@allowed_user(allowed_roles=['admin'])
-@cache_page(60 * 15)
-@csrf_protect
 
 def operator_form(request):
 
@@ -210,10 +139,9 @@ def operator_form(request):
           if form.is_valid():
                country = request.POST.get('country')
                currency = request.POST.get('currency')
-               operator = request.POST.get('name').upper()
+               operator = request.POST.get('name')
                iot = request.POST.get('IOT')
                agreement = request.POST.get('Agreement')
-               direction = request.POST.get('direction')
 
                
 
@@ -231,7 +159,6 @@ def operator_form(request):
                post.name = operator 
                post.standard_iot = iot
                post.agreement_type = agreement
-               post.direction = direction
                
                post.LocalCurrency = currency
                Service.objects.create(Operator=post.name,Service_name='CAMEL',live=False)
@@ -261,9 +188,7 @@ def operator_form(request):
      return render(request,"pages/forms/operator_form.html",context)
 
 
-@allowed_user(allowed_roles=['admin'])
-@cache_page(60 * 15)
-@csrf_protect
+
 def service_form(request):
 
      form = Serviceform(request.POST or None)
@@ -274,6 +199,7 @@ def service_form(request):
           if form.is_valid():
                form.save()
                return redirect('home')
+
 
      context = {
 
@@ -321,22 +247,10 @@ def hpmn_form(request):
      return render(request,"pages/forms/hpmn_form.html",context)
 
 
+      return redirect('charge_form')
 
 
-@allowed_user(allowed_roles=['admin'])
-@cache_page(60 * 15)
-@csrf_protect
-def mainservice_form(request):
 
-     form = MainServiceform(request.POST or None)
-
-     if request.method == 'POST':
-          form = MainServiceform(request.POST)
-
-          if form.is_valid():
-               form.save()
-
-               return redirect(request.META.get('HTTP_REFERER'))
 
 
                
@@ -347,7 +261,7 @@ def mainservice_form(request):
 
     }
 
-     return render(request,"pages/forms/mainservice_form.html",context)
+     return render(request,"pages/forms/service_form.html",context)
 
 
      
@@ -362,9 +276,6 @@ def normal_round(n):
 
 
 
-@allowed_user(allowed_roles=['admin'])
-@cache_page(60 * 15)
-@csrf_protect
 def charge_form(request):
      operators = Operator.objects.order_by('name')
      call_type = Call_type.objects.order_by('call_type')
@@ -379,7 +290,6 @@ def charge_form(request):
      
         
           operator = request.POST.get('operator')
-          
           service_type = request.POST.get('service_type')
           service_name = request.POST.get('service_name')
           charge = float(request.POST.get('charge'))
@@ -445,7 +355,7 @@ def charge_form(request):
               
 
 
-               return redirect('blank', Operators=operator,type='VPMN')
+               return redirect('home')
           
         
           
@@ -464,9 +374,8 @@ def charge_form(request):
     }
      return render(request,"pages/forms/charge_form.html",context)
 
-@allowed_user(allowed_roles=['admin'])
-@cache_page(60 * 15)
-@csrf_protect
+
+
 def country_form(request):
      rates = exchange_rate.objects.order_by('LocalCurrency')
 
@@ -501,9 +410,8 @@ def country_form(request):
      return render(request,"pages/forms/country_form.html",context)
 
 
-@allowed_user(allowed_roles=['admin'])
-@cache_page(60 * 15)
-@csrf_protect
+
+
 def currency_form(request):
 
      form = Ratesform(request.POST or None)
@@ -533,9 +441,8 @@ def currency_form(request):
      return render(request,"pages/forms/currency_form.html",context)
 
 
-@allowed_user(allowed_roles=['admin'])
-@cache_page(60 * 15)
-@csrf_protect
+
+
 def register(request):
      return render(request,"pages/samples/register.html",{})
 
@@ -557,18 +464,16 @@ def dropdowns(request):
 def typography(request):
      return render(request,"pages/ui-features/typography.html",{})
 
-@allowed_user(allowed_roles=['admin'])
+
 def blank(request, Operators,type):
      
    
 
-     HPMN = HPMNTable.objects.all()
+
      service = Service.objects.filter(Operator=Operators)
      prepaid = Charge.objects.filter(Operator = Operators).filter(Service_type = 'Prepaid')
      postpaid = Charge.objects.filter(Operator = Operators).filter(Service_type = 'Postpaid')
      country = Operator.objects.get(name=Operators).country_id
-
-     
      operator = Operator.objects.get(name=Operators)
      
 
@@ -589,7 +494,6 @@ def blank(request, Operators,type):
           'operator':operator,
           'type': type,
           'Service':service,
-          'HPMN':HPMN,
     
           'name': Operators,
           'country': country
@@ -598,40 +502,3 @@ def blank(request, Operators,type):
 
      return render(request,"pages/samples/blank-page.html",context)
 
-
-def customercare_table(request, Operators,type):
-     
-   
-
-
-     service = Service.objects.filter(Operator=Operators)
-     prepaid = Charge.objects.filter(Operator = Operators).filter(Service_type = 'Prepaid')
-     postpaid = Charge.objects.filter(Operator = Operators).filter(Service_type = 'Postpaid')
-     country = Operator.objects.get(name=Operators).country_id
-     operator = Operator.objects.get(name=Operators)
-     
-
-   
-
-     if(request.POST.get('search')):
-          search = request.POST.get('search').upper()
-          prepaid = Charge.objects.filter(Operator = Operators).filter(Service__icontains=search).filter(Service_type = 'Prepaid')
-          postpaid = Charge.objects.filter(Operator = Operators).filter(Service__icontains=search).filter(Service_type = 'Postpaid')
-
-
-
-     
-
-     context = {
-          'Postpaid' : postpaid,
-          'Prepaid' : prepaid,
-          'operator':operator,
-          'type': type,
-          'Service':service,
-    
-          'name': Operators,
-          'country': country
-     }
-
-
-     return render(request,"pages/samples/customer_table.html",context)

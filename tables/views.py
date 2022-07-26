@@ -1,22 +1,21 @@
 from datetime import datetime
 from http.client import HTTPResponse
 from locale import currency
-from time import process_time_ns
 from unicodedata import name
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from mainpage.models import Partner, exchange_rate,Operator,operator_ndcs
-from .models import Charge,Service
+from .models import Charge
 import xlwt
-from mainpage.forms import Countryform, Operatorform, Ratesform,Serviceform,MainServiceform,HPMNTable
+from mainpage.forms import Countryform, Operatorform, Ratesform
 from django.shortcuts import redirect
-from mainpage.decorators import allowed_user
+
 
 
 
 
 # Create your views here.
-@allowed_user(allowed_roles=['admin'])
+
 def country_table(request):
     
      obj = Partner.objects.order_by('Country')
@@ -39,7 +38,7 @@ def country_table(request):
     }
      return render(request,"pages/tables/countries.html",context)
      
-@allowed_user(allowed_roles=['admin'])
+
 def operator_table(request):
      country_list = []
      clist = Partner.objects.all()
@@ -79,7 +78,7 @@ def operator_table(request):
 
      return render(request,"pages/tables/operators.html",context)
 
-@allowed_user(allowed_roles=['admin'])
+
 def rate_table(request):
      obj = exchange_rate.objects.order_by('LocalCurrency')
      curr = 'Currency'
@@ -102,7 +101,7 @@ def rate_table(request):
      
 
 
-@allowed_user(allowed_roles=['admin'])
+
 def delete_operator(request,Operators):
    
      lent = (len(Operators))-1
@@ -117,11 +116,8 @@ def delete_operator(request,Operators):
 
           operator.delete()
           charge = Charge.objects.filter(Operator=operator.name)
-          service =  Service.objects.filter(Operator=operator.name)
           for c in charge:
                c.delete()
-          for s in service:
-               s.delete()
           
           return redirect('operator_table')
 
@@ -136,13 +132,12 @@ def delete_operator(request,Operators):
      return render(request,"pages/forms/delete_form.html",context)
     
 
-@allowed_user(allowed_roles=['admin'])
+
 def delete_charge(request,Charges):
      lent = (len(Charges))-1
      iD = Charges[15:lent]
 
      charge = Charge.objects.get(id=int(iD))
-     name = Charge.objects.get(id=int(iD)).Operator
 
 
      
@@ -152,7 +147,7 @@ def delete_charge(request,Charges):
           charge.delete()
 
           
-          return redirect('blank', Operators=name,type='HPMN')
+          return redirect('home')
 
 
      context = {
@@ -164,7 +159,6 @@ def delete_charge(request,Charges):
 
      return render(request,"pages/forms/delete_form.html",context)
 
-@allowed_user(allowed_roles=['admin'])
 def update_currency(request,curr):
    
      currency = exchange_rate.objects.get(LocalCurrency =curr)
@@ -202,37 +196,9 @@ def update_currency(request,curr):
     }
      return render(request,"pages/forms/currency_form.html",context)
 
-@allowed_user(allowed_roles=['admin'])
-def update_mainservice(request,Operators,service):
-     obj = Service.objects.filter(Operator=Operators).get(Service_name=service)
-     print('naaah')
-     print(obj)
-     form = MainServiceform(instance= obj)
-
-     if request.method=='POST':
-          form = MainServiceform(request.POST,instance= obj)
-          if form.is_valid():
-               form.save()
-               
-               return redirect('blank',Operators=Operators,type='HPMN')
-
-
-     context = {
-
-    
-    'form' : form,
-
-    }
 
 
 
-     return render(request,"pages/forms/mainservice_form.html",context)
-
-
-
-
-          
-@allowed_user(allowed_roles=['admin'])
 def update_operator(request,Operators):
      obj = Partner.objects.order_by('Country')
      operator = Operator.objects.get(name=Operators)
@@ -241,14 +207,13 @@ def update_operator(request,Operators):
 
      if request.method=='POST':
 
-          form = Operatorform(request.POST,instance=operator)
+          form = Operatorform(request.POST,instance= operator)
           if form.is_valid():
                country = request.POST.get('country')
                currency = request.POST.get('currency')
                operator = request.POST.get('name')
                iot = request.POST.get('IOT')
                agreement = request.POST.get('Agreement')
-               direction = request.POST.get('direction')
                
                
        
@@ -258,7 +223,6 @@ def update_operator(request,Operators):
                post.standard_iot = iot
                post.LocalCurrency = currency
                post.agreement_type = agreement
-               post.direction = direction
 
                post.save()
                form = post
@@ -280,13 +244,11 @@ def update_operator(request,Operators):
 
 
 
-@allowed_user(allowed_roles=['admin'])
+
 def charge_table(request,type):
     
      obj =  Charge.objects.order_by('Operator')
      obj2 = Operator.objects.order_by('name')
-
-     HPMN = HPMNTable.objects.all()
 
 
      olist = list(Charge.objects.values_list('Operator',flat=True))
@@ -301,7 +263,7 @@ def charge_table(request,type):
      context = {
     'Operator': obj2,
     'type':type,
-     'HPMN':HPMN,
+
     'Charge' : obj ,
     }
 
@@ -310,7 +272,7 @@ def charge_table(request,type):
      return render(request,"pages/tables/charge-table.html",context)
      
 
-@allowed_user(allowed_roles=['admin'])
+
 def export_excel(request):
 
      response = HttpResponse(content_type='application/ms-excel')
