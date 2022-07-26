@@ -3,15 +3,11 @@ from locale import currency
 import operator
 
 #paginator and math
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 from locale import currency
 from logging.config import DEFAULT_LOGGING_CONFIG_PORT
 from tokenize import blank_re
-=======
->>>>>>> parent of ab03a8f (final)
-=======
->>>>>>> parent of ab03a8f (final)
+
 from django.core.paginator import Paginator
 from django.contrib import messages
 
@@ -127,7 +123,7 @@ def home(request):
 def operator_form(request):
 
      obj = Partner.objects.order_by('Country')
-     Currency= exchange_rate.objects.order_by('LocalCurrency')
+     Currency = exchange_rate.objects.order_by('LocalCurrency')
      form = Operatorform(request.POST or None)
      olist = list(Operator.objects.values_list('name',flat=True))
      olist = [o.upper() for o in olist]
@@ -186,7 +182,7 @@ def operator_form(request):
 
     'Partner' : obj,
     'form' : form,
-    'Currency': Currency
+    'Currency' : Currency,
 
     }
      return render(request,"pages/forms/operator_form.html",context)
@@ -202,8 +198,57 @@ def service_form(request):
 
           if form.is_valid():
                form.save()
+               return redirect('home')
 
-               return redirect('charge_form')
+
+     context = {
+
+    'form' : form,
+
+
+    }
+
+ 
+     return render(request,"pages/forms/service_form.html",context)
+
+
+@allowed_user(allowed_roles=['admin'])
+@cache_page(60 * 15)
+@csrf_protect
+def hpmn_form(request):
+
+     form = HPMNServiceform(request.POST or None)
+     call_type = Call_type.objects.order_by('call_type')
+
+     if request.method == 'POST':
+          form = HPMNServiceform(request.POST)
+          service_type = request.POST.get('service_type')
+          call_type = request.POST.get('call_type')
+        
+
+          if form.is_valid():
+               post = form.save(commit=False)
+               post.Service_type = service_type
+               post.call_type = call_type
+               form = post
+
+               form.save()
+               return redirect('home')
+
+     context = {
+
+    'form' : form,
+    'Service' : call_type,
+
+
+    }
+
+ 
+     return render(request,"pages/forms/hpmn_form.html",context)
+
+
+      return redirect('charge_form')
+
 
 
 
