@@ -194,7 +194,7 @@ def customercare(request):
 def operator_form(request):
 
      obj = Partner.objects.order_by('Country')
-     Currency= exchange_rate.objects.order_by('LocalCurrency')
+     Currency = exchange_rate.objects.order_by('LocalCurrency')
      form = Operatorform(request.POST or None)
      olist = list(Operator.objects.values_list('name',flat=True))
      olist = [o.upper() for o in olist]
@@ -255,7 +255,7 @@ def operator_form(request):
 
     'Partner' : obj,
     'form' : form,
-    'Currency': Currency
+    'Currency' : Currency,
 
     }
      return render(request,"pages/forms/operator_form.html",context)
@@ -273,6 +273,7 @@ def service_form(request):
 
           if form.is_valid():
                form.save()
+               return redirect('home')
 
      context = {
 
@@ -311,7 +312,7 @@ def hpmn_form(request):
      context = {
 
     'form' : form,
-    'Service': call_type,
+    'Service' : call_type,
 
 
     }

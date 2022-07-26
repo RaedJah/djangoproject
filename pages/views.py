@@ -80,7 +80,7 @@ def register_user(request):
                 usr.save()
             
                 messages.success(request,("Registration succesful"))
-                return redirect('home')
+                return redirect('customercare')
 
     
 
