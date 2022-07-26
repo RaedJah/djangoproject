@@ -118,7 +118,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',  
         'NAME': 'qroaming',  
         'USER': 'root',  
-        'PASSWORD': '',  
+        'PASSWORD': 'tvremote1',  
         'HOST': '127.0.0.1',  
         'PORT': '3306',  
         'OPTIONS': {  
